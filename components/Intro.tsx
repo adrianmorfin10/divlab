@@ -95,6 +95,23 @@ export default function Intro() {
           scrub: 1,
         },
       });
+
+      /*
+       * VIDEO
+       */
+
+      gsap.from(".intro-video", {
+        y: 35,
+        opacity: 0,
+        scale: 0.96,
+
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top 80%",
+          end: "top 50%",
+          scrub: 1,
+        },
+      });
     }, root);
 
     return () => ctx.revert();
@@ -205,6 +222,12 @@ export default function Intro() {
     );
   };
 
+  /*
+   * =========================================================
+   * RENDER
+   * =========================================================
+   */
+
   return (
     <section
       ref={root}
@@ -285,9 +308,13 @@ export default function Intro() {
             md:gap-12
           "
         >
-          {/* LABEL */}
+          {/* =================================================
+              LEFT COLUMN
+          ================================================= */}
 
           <div>
+            {/* LABEL */}
+
             <div
               className="
                 font-mono
@@ -299,7 +326,74 @@ export default function Intro() {
               01 / WHAT WE DO
             </div>
 
-            <div className="mt-6 hidden md:block">
+            {/* =================================================
+                VIDEO
+            ================================================= */}
+
+            <motion.div
+              className="
+                intro-video
+                relative
+                mt-8
+                aspect-square
+                w-full
+                max-w-[280px]
+                overflow-hidden
+                rounded-[28px]
+                border
+                border-black/10
+                bg-black/[0.04]
+                md:mt-10
+                md:max-w-none
+              "
+            >
+              {/* subtle frame */}
+
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-0
+                  z-10
+                  rounded-[28px]
+                  border
+                  border-white/10
+                "
+              />
+
+              {/* video */}
+
+              <video
+                src="/orb.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className="
+                  h-full
+                  w-full
+                  object-cover
+                "
+              />
+
+              {/* subtle overlay */}
+
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  inset-0
+                  bg-black/[0.02]
+                "
+              />
+            </motion.div>
+
+            {/* =================================================
+                DESKTOP INFO
+            ================================================= */}
+
+            <div className="mt-8 hidden md:block">
               <div className="font-mono text-[8px] uppercase tracking-[0.18em] text-black/30">
                 DIGITAL STUDIO
               </div>
@@ -314,7 +408,9 @@ export default function Intro() {
             </div>
           </div>
 
-          {/* TEXT */}
+          {/* =================================================
+              TEXT
+          ================================================= */}
 
           <div>
             <h2

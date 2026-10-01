@@ -9,6 +9,7 @@ import WhyUs from "@/components/WhyUs";
 import Calculator from "@/components/Calculator";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Portfolio from "@/components/Portfolio";
 
 export default function Home() {
   return (
@@ -25,6 +26,8 @@ export default function Home() {
       <Services />
 
       <Projects />
+
+      <Portfolio />
 
       <Process />
 

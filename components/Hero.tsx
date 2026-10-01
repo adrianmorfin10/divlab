@@ -17,9 +17,14 @@ export default function Hero() {
 
   const [blocks, setBlocks] = useState<GridBlock[]>([]);
   const [isDesktop, setIsDesktop] = useState(false);
+
   const [hoveredWord, setHoveredWord] = useState<
     "ideas" | "products" | null
   >(null);
+
+  // Controla exclusivamente la animación inicial en mobile
+  const [mobileWordsReady, setMobileWordsReady] =
+    useState(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -55,6 +60,35 @@ export default function Hero() {
       window.removeEventListener("resize", checkDesktop);
     };
   }, []);
+
+  /*
+  ============================================================
+  MOBILE WORDS
+
+  Las palabras empiezan apagadas.
+
+  Después de cargar:
+  ideas -> se ilumina
+  products -> se ilumina
+
+  Una vez iluminadas NO vuelven a apagarse.
+  ============================================================
+  */
+
+  useEffect(() => {
+    if (isDesktop) {
+      setMobileWordsReady(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setMobileWordsReady(true);
+    }, 700);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [isDesktop]);
 
   /*
   ============================================================
@@ -163,7 +197,15 @@ export default function Hero() {
 
       <div className="pointer-events-none absolute inset-0">
 
-        {/* Background image */}
+        {/* =================================================
+            BACKGROUND IMAGE
+
+            MOBILE:
+            200% para hacerla mucho más grande.
+
+            DESKTOP:
+            mantiene el tamaño anterior.
+        ================================================= */}
 
         <div
           className="
@@ -172,12 +214,14 @@ export default function Hero() {
             bg-center
             bg-no-repeat
             opacity-[0.42]
+
+            bg-[length:200%_auto]
+
+            md:bg-[length:min(100%,1500px)_auto]
           "
           style={{
             backgroundImage:
               "url('/background.png')",
-            backgroundSize:
-              "min(100%, 1500px) auto",
           }}
         />
 
@@ -240,7 +284,6 @@ export default function Hero() {
               "80px 80px",
           }}
         />
-
       </div>
 
       {/* =====================================================
@@ -369,7 +412,6 @@ export default function Hero() {
               to-transparent
             "
           />
-
         </div>
       )}
 
@@ -390,7 +432,6 @@ export default function Hero() {
           md:py-8
         "
       >
-
         <div
           className="
             text-sm
@@ -398,10 +439,7 @@ export default function Hero() {
             tracking-[-0.04em]
           "
         >
-          
-          <span className="text-white/25">
-            
-          </span>
+          <span className="text-white/25"></span>
         </div>
 
         <div
@@ -417,7 +455,6 @@ export default function Hero() {
         >
           Digital product studio
         </div>
-
       </header>
 
       {/* =====================================================
@@ -441,11 +478,11 @@ export default function Hero() {
           md:pt-24
         "
       >
-
-        {/* TOP */}
+        {/* =================================================
+            TOP
+        ================================================= */}
 
         <div>
-
           <motion.div
             initial={{
               opacity: 0,
@@ -496,7 +533,6 @@ export default function Hero() {
               tracking-[-0.075em]
             "
           >
-
             We turn
 
             <br />
@@ -512,26 +548,56 @@ export default function Hero() {
               onMouseLeave={() =>
                 setHoveredWord(null)
               }
-              animate={{
-                color:
-                  hoveredWord === "ideas"
-                    ? "#f2f0e9"
-                    : "rgba(255,255,255,0.25)",
-
+              initial={{
+                color: "rgba(255,255,255,0.20)",
                 textShadow:
-                  hoveredWord === "ideas"
-                    ? "0 0 30px rgba(220,245,255,.18)"
-                    : "0 0 0 rgba(0,0,0,0)",
+                  "0 0 0 rgba(220,245,255,0)",
+              }}
+              animate={
+                isDesktop
+                  ? {
+                      color:
+                        hoveredWord === "ideas"
+                          ? "#f2f0e9"
+                          : "rgba(255,255,255,0.25)",
 
-                x:
-                  hoveredWord === "ideas"
-                    ? 5
-                    : 0,
-              }}
-              transition={{
-                duration: 0.35,
-                ease: "easeOut",
-              }}
+                      textShadow:
+                        hoveredWord === "ideas"
+                          ? "0 0 30px rgba(220,245,255,.18)"
+                          : "0 0 0 rgba(0,0,0,0)",
+
+                      x:
+                        hoveredWord === "ideas"
+                          ? 5
+                          : 0,
+                    }
+                  : {
+                      color: mobileWordsReady
+                        ? "#ffffff"
+                        : "rgba(255,255,255,0.20)",
+
+                      textShadow: mobileWordsReady
+                        ? `
+                          0 0 12px rgba(255,255,255,.35),
+                          0 0 30px rgba(220,245,255,.25)
+                        `
+                        : "0 0 0 rgba(0,0,0,0)",
+
+                      x: 0,
+                    }
+              }
+              transition={
+                isDesktop
+                  ? {
+                      duration: 0.35,
+                      ease: "easeOut",
+                    }
+                  : {
+                      duration: 0.9,
+                      delay: 0.05,
+                      ease: [0.16, 1, 0.3, 1],
+                    }
+              }
               className="
                 inline-block
                 cursor-default
@@ -557,26 +623,56 @@ export default function Hero() {
               onMouseLeave={() =>
                 setHoveredWord(null)
               }
-              animate={{
-                color:
-                  hoveredWord === "products"
-                    ? "#f2f0e9"
-                    : "rgba(255,255,255,0.25)",
-
+              initial={{
+                color: "rgba(255,255,255,0.20)",
                 textShadow:
-                  hoveredWord === "products"
-                    ? "0 0 30px rgba(220,245,255,.18)"
-                    : "0 0 0 rgba(0,0,0,0)",
+                  "0 0 0 rgba(220,245,255,0)",
+              }}
+              animate={
+                isDesktop
+                  ? {
+                      color:
+                        hoveredWord === "products"
+                          ? "#f2f0e9"
+                          : "rgba(255,255,255,0.25)",
 
-                x:
-                  hoveredWord === "products"
-                    ? 5
-                    : 0,
-              }}
-              transition={{
-                duration: 0.35,
-                ease: "easeOut",
-              }}
+                      textShadow:
+                        hoveredWord === "products"
+                          ? "0 0 30px rgba(220,245,255,.18)"
+                          : "0 0 0 rgba(0,0,0,0)",
+
+                      x:
+                        hoveredWord === "products"
+                          ? 5
+                          : 0,
+                    }
+                  : {
+                      color: mobileWordsReady
+                        ? "#ffffff"
+                        : "rgba(255,255,255,0.20)",
+
+                      textShadow: mobileWordsReady
+                        ? `
+                          0 0 12px rgba(255,255,255,.35),
+                          0 0 30px rgba(220,245,255,.25)
+                        `
+                        : "0 0 0 rgba(0,0,0,0)",
+
+                      x: 0,
+                    }
+              }
+              transition={
+                isDesktop
+                  ? {
+                      duration: 0.35,
+                      ease: "easeOut",
+                    }
+                  : {
+                      duration: 0.9,
+                      delay: 0.3,
+                      ease: [0.16, 1, 0.3, 1],
+                    }
+              }
               className="
                 inline-block
                 cursor-default
@@ -584,9 +680,7 @@ export default function Hero() {
             >
               products.
             </motion.span>
-
           </motion.h1>
-
         </div>
 
         {/* =====================================================
@@ -604,7 +698,6 @@ export default function Hero() {
             md:justify-between
           "
         >
-
           <motion.p
             initial={{
               opacity: 0,
@@ -668,7 +761,6 @@ export default function Hero() {
               hover:bg-white
             "
           >
-
             <span className="!text-black">
               Start a conversation
             </span>
@@ -682,11 +774,8 @@ export default function Hero() {
                 group-hover:rotate-45
               "
             />
-
           </motion.a>
-
         </div>
-
       </div>
 
       {/* =====================================================
@@ -723,7 +812,6 @@ export default function Hero() {
 
         <span className="h-px w-8 bg-white/20" />
       </motion.div>
-
     </section>
   );
 }
