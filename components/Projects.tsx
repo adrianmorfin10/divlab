@@ -69,20 +69,31 @@ const projects: Project[] = [
    VISIBILITY HOOK
 ========================================================= */
 
+/*
+ * Cada proyecto se activa una sola vez.
+ *
+ * Antes:
+ *
+ * entra -> visible
+ * sale -> invisible
+ * entra -> visible
+ * sale -> invisible
+ *
+ * Eso provocaba que ProjectVisual se desmontara y
+ * las animaciones volvieran a empezar constantemente.
+ *
+ * Ahora:
+ *
+ * entra -> visible
+ * se deja de observar
+ *
+ * El proyecto permanece montado.
+ */
+
 function useProjectVisibility() {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  /*
-   * Esto es MUY importante.
-   *
-   * wasVisible evita que IntersectionObserver
-   * dispare varias veces mientras el elemento
-   * sigue dentro del viewport.
-   */
-  const wasVisible = useRef(false);
-
   const [visible, setVisible] = useState(false);
-  const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
     const element = ref.current;
@@ -91,35 +102,19 @@ function useProjectVisibility() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          /*
-           * Solamente iniciamos la animación
-           * si realmente acabamos de entrar.
-           */
-          if (!wasVisible.current) {
-            wasVisible.current = true;
+        if (!entry.isIntersecting) return;
 
-            setVisible(true);
+        setVisible(true);
 
-            setAnimationKey((current) => current + 1);
-          }
-        } else {
-          /*
-           * Salimos del viewport.
-           *
-           * No cambiamos el key todavía.
-           * Simplemente preparamos el componente
-           * para que pueda volver a iniciar
-           * cuando entre nuevamente.
-           */
-          wasVisible.current = false;
-
-          setVisible(false);
-        }
+        /*
+         * Ya no necesitamos observar este elemento.
+         * La animación solamente ocurre una vez.
+         */
+        observer.unobserve(element);
       },
       {
-        threshold: 0.25,
-        rootMargin: "0px",
+        threshold: 0.05,
+        rootMargin: "200px 0px",
       }
     );
 
@@ -133,7 +128,6 @@ function useProjectVisibility() {
   return {
     ref,
     visible,
-    animationKey,
   };
 }
 
@@ -173,7 +167,7 @@ export default function Projects() {
       ================================================= */}
 
       <div className="mx-auto max-w-[1500px] px-4 md:px-8">
-        <div className="space-y-40 md:space-y-64">
+        <div className="space-y-24 md:space-y-40">
           {projects.map((project, index) => (
             <Projectsvg
               key={project.number}
@@ -184,13 +178,13 @@ export default function Projects() {
         </div>
       </div>
 
-      <div className="h-40 md:h-60" />
+      <div className="h-32 md:h-48" />
     </section>
   );
 }
 
 /* =========================================================
-   PROJECT SVG
+   PROJECT
 ========================================================= */
 
 function Projectsvg({
@@ -200,12 +194,12 @@ function Projectsvg({
   index: number;
   project: Project;
 }) {
-  const { ref, visible, animationKey } = useProjectVisibility();
+  const { ref, visible } = useProjectVisibility();
 
   return (
     <article
       ref={ref}
-      className="relative min-h-[110vh] w-full"
+      className="relative min-h-[100vh] w-full"
     >
       {/* =================================================
           TOP META
@@ -226,11 +220,7 @@ function Projectsvg({
       ================================================= */}
 
       <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#090909]">
-        {visible && (
-          <div key={animationKey}>
-            <ProjectVisual index={index} />
-          </div>
-        )}
+        {visible && <ProjectVisual index={index} />}
 
         {/* =================================================
             PROJECT INFORMATION
@@ -318,7 +308,7 @@ function BusinessPlatform() {
           duration: 1,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="absolute left-[8%] right-[8%] top-[9%] bottom-[7%] rounded-[26px] border border-dashed border-white/10 bg-[#0d0d0d] p-6 md:p-10"
+        className="absolute bottom-[7%] left-[8%] right-[8%] top-[9%] rounded-[26px] border border-dashed border-white/10 bg-[#0d0d0d] p-6 md:p-10"
       >
         <StageTitle
           number="01"
@@ -404,13 +394,11 @@ function BusinessPlatform() {
           delay: 1.7,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="absolute left-[7%] right-[7%] top-[8%] bottom-[6%] z-10 overflow-hidden rounded-[26px] border border-white/10 bg-[#101010]"
+        className="absolute bottom-[6%] left-[7%] right-[7%] top-[8%] z-10 overflow-hidden rounded-[26px] border border-white/10 bg-[#101010]"
       >
         <BrowserBar />
 
         <div className="flex h-[calc(100%-44px)]">
-          {/* WIREFRAME SIDEBAR */}
-
           <div className="hidden w-[145px] shrink-0 border-r border-white/10 p-4 md:block">
             <div className="mb-7 h-5 w-20 rounded bg-white/10" />
 
@@ -459,7 +447,7 @@ function BusinessPlatform() {
           delay: 3,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="absolute left-[7%] right-[7%] top-[7%] bottom-[5%] z-20 rounded-[28px] border border-white/10 bg-[#141414] p-7 md:p-10"
+        className="absolute bottom-[5%] left-[7%] right-[7%] top-[7%] z-20 rounded-[28px] border border-white/10 bg-[#141414] p-7 md:p-10"
       >
         <StageTitle
           number="03"
@@ -521,13 +509,12 @@ function BusinessPlatform() {
 
         <div className="mt-6 grid grid-cols-2 gap-4">
           <div className="h-32 rounded-xl border border-white/10" />
-
           <div className="h-32 rounded-xl border border-white/10" />
         </div>
       </motion.div>
 
       {/* =================================================
-          FINAL HIGH FIDELITY DASHBOARD
+          FINAL DASHBOARD
       ================================================= */}
 
       <motion.div
@@ -546,18 +533,14 @@ function BusinessPlatform() {
           delay: 4.5,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="absolute left-[5%] right-[5%] top-[6%] bottom-[4%] z-30 overflow-hidden rounded-[30px] border border-white/10 bg-[#080808] shadow-[0_50px_120px_rgba(0,0,0,.75)]"
+        className="absolute bottom-[4%] left-[5%] right-[5%] top-[6%] z-30 overflow-hidden rounded-[30px] border border-white/10 bg-[#080808] shadow-[0_50px_120px_rgba(0,0,0,.75)]"
       >
         <BrowserBar />
 
         <div className="flex h-[calc(100%-44px)]">
-          {/* =================================================
-              REAL SIDEBAR
-          ================================================= */}
+          {/* SIDEBAR */}
 
           <aside className="hidden w-[190px] shrink-0 border-r border-white/10 bg-[#090909] md:flex md:flex-col">
-            {/* LOGO */}
-
             <div className="flex h-16 items-center gap-2 border-b border-white/10 px-6">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white text-black">
                 <BarChart3
@@ -570,8 +553,6 @@ function BusinessPlatform() {
                 Business OS
               </span>
             </div>
-
-            {/* NAVIGATION */}
 
             <div className="flex-1 p-3">
               <SidebarSection label="Workspace" />
@@ -617,8 +598,6 @@ function BusinessPlatform() {
               />
             </div>
 
-            {/* USER */}
-
             <div className="border-t border-white/10 p-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
@@ -641,13 +620,9 @@ function BusinessPlatform() {
             </div>
           </aside>
 
-          {/* =================================================
-              MAIN DASHBOARD
-          ================================================= */}
+          {/* MAIN */}
 
           <main className="min-w-0 flex-1 overflow-hidden">
-            {/* HEADER */}
-
             <div className="flex h-16 items-center justify-between border-b border-white/10 px-5 md:px-7">
               <div className="flex items-center gap-3">
                 <Menu
@@ -683,11 +658,7 @@ function BusinessPlatform() {
               </div>
             </div>
 
-            {/* CONTENT */}
-
             <div className="overflow-hidden p-5 md:p-7">
-              {/* TOP */}
-
               <motion.div
                 initial={{
                   opacity: 0,
@@ -717,8 +688,6 @@ function BusinessPlatform() {
                   Last 30 days
                 </button>
               </motion.div>
-
-              {/* METRICS */}
 
               <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
                 <Metric
@@ -750,11 +719,7 @@ function BusinessPlatform() {
                 />
               </div>
 
-              {/* CHART + ACTIVITY */}
-
               <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_250px]">
-                {/* CHART */}
-
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -819,8 +784,6 @@ function BusinessPlatform() {
                     <span>DEC</span>
                   </div>
                 </motion.div>
-
-                {/* ACTIVITY */}
 
                 <motion.div
                   initial={{
@@ -897,13 +860,11 @@ function DigitalExperience() {
     <div className="relative h-[720px] overflow-hidden bg-[#090909] md:h-[820px]">
       <ProjectStageLabel text="Digital experience / 02" />
 
-      {/* SKETCH */}
-
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="absolute left-[10%] right-[10%] top-[9%] bottom-[7%] rounded-[28px] border border-dashed border-white/10 p-7 md:p-12"
+        className="absolute bottom-[7%] left-[10%] right-[10%] top-[9%] rounded-[28px] border border-dashed border-white/10 p-7 md:p-12"
       >
         <StageTitle
           number="01"
@@ -956,8 +917,6 @@ function DigitalExperience() {
         </div>
       </motion.div>
 
-      {/* WIREFRAME */}
-
       <motion.div
         initial={{
           opacity: 0,
@@ -971,7 +930,7 @@ function DigitalExperience() {
           duration: 1,
           delay: 1.6,
         }}
-        className="absolute left-[8%] right-[8%] top-[8%] bottom-[6%] z-10 overflow-hidden rounded-[28px] border border-white/10 bg-[#101010]"
+        className="absolute bottom-[6%] left-[8%] right-[8%] top-[8%] z-10 overflow-hidden rounded-[28px] border border-white/10 bg-[#101010]"
       >
         <BrowserBar />
 
@@ -1003,8 +962,6 @@ function DigitalExperience() {
         </div>
       </motion.div>
 
-      {/* FINAL */}
-
       <motion.div
         initial={{
           opacity: 0,
@@ -1021,7 +978,7 @@ function DigitalExperience() {
           delay: 3.5,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="absolute left-[6%] right-[6%] top-[6%] bottom-[4%] z-20 overflow-hidden rounded-[30px] border border-white/10 bg-[#f0eee7] text-black shadow-[0_50px_120px_rgba(0,0,0,.65)]"
+        className="absolute bottom-[4%] left-[6%] right-[6%] top-[6%] z-20 overflow-hidden rounded-[30px] border border-white/10 bg-[#f0eee7] text-black shadow-[0_50px_120px_rgba(0,0,0,.65)]"
       >
         <div className="flex h-14 items-center justify-between border-b border-black/10 px-6">
           <div className="flex items-center gap-2 text-xs font-bold tracking-[-0.04em]">
@@ -1086,8 +1043,6 @@ function MobileProduct() {
     <div className="relative h-[720px] overflow-hidden bg-[#080808] md:h-[820px]">
       <ProjectStageLabel text="Mobile product / 03" />
 
-      {/* SKETCH */}
-
       <motion.div
         initial={{
           opacity: 0,
@@ -1129,8 +1084,6 @@ function MobileProduct() {
         </div>
       </motion.div>
 
-      {/* WIREFRAME */}
-
       <motion.div
         initial={{
           opacity: 0,
@@ -1169,8 +1122,6 @@ function MobileProduct() {
         </div>
       </motion.div>
 
-      {/* FINAL APP */}
-
       <motion.div
         initial={{
           opacity: 0,
@@ -1189,11 +1140,7 @@ function MobileProduct() {
         }}
         className="absolute left-1/2 top-[7%] z-30 h-[500px] w-[240px] -translate-x-1/2 overflow-hidden rounded-[38px] border border-white/10 bg-[#f1efe8] text-black shadow-[0_50px_100px_rgba(0,0,0,.8)] md:h-[550px] md:w-[260px]"
       >
-        {/* NOTCH */}
-
         <div className="absolute left-1/2 top-2 z-20 h-5 w-20 -translate-x-1/2 rounded-full bg-black" />
-
-        {/* HEADER */}
 
         <div className="px-5 pb-4 pt-10">
           <div className="flex items-center justify-between">
@@ -1215,8 +1162,6 @@ function MobileProduct() {
             </div>
           </div>
         </div>
-
-        {/* BALANCE */}
 
         <div className="mx-5 rounded-[22px] bg-black p-5 text-white">
           <div className="flex items-center justify-between">
@@ -1251,8 +1196,6 @@ function MobileProduct() {
           </div>
         </div>
 
-        {/* ACTIVITY */}
-
         <div className="px-5 pt-6">
           <div className="flex items-center justify-between">
             <div className="text-sm font-medium">
@@ -1285,8 +1228,6 @@ function MobileProduct() {
             />
           </div>
         </div>
-
-        {/* NAV */}
 
         <div className="absolute bottom-0 left-0 right-0 flex h-16 items-center justify-around border-t border-black/10 bg-[#f1efe8]">
           <div className="flex flex-col items-center gap-1">
