@@ -55,27 +55,59 @@ export default function Services() {
   */
 
   useLayoutEffect(() => {
+    const section = root.current;
+
+    if (!section) return;
+
     const ctx = gsap.context(() => {
+      /*
+       * IMPORTANT:
+       *
+       * The cards are NOT initialized with opacity: 0.
+       *
+       * This means that if ScrollTrigger fails to initialize
+       * for any reason in production, the content remains
+       * visible instead of disappearing.
+       */
+
       gsap.from(".service-card", {
-        y: 100,
-        opacity: 0,
+        y: 60,
         stagger: 0.08,
+        ease: "none",
 
         scrollTrigger: {
-          trigger: root.current,
-          start: "top 70%",
-          end: "top 25%",
+          trigger: section,
+          start: "top 75%",
+          end: "top 35%",
           scrub: 1,
+          invalidateOnRefresh: true,
         },
       });
-    }, root);
+    }, section);
 
-    return () => ctx.revert();
+    /*
+     * Give the browser a moment to finish layout before
+     * refreshing ScrollTrigger.
+     *
+     * This helps when fonts/images/layout dimensions change
+     * between development and production.
+     */
+
+    const refreshTimer = window.setTimeout(() => {
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("resize"));
+      }
+    }, 100);
+
+    return () => {
+      window.clearTimeout(refreshTimer);
+      ctx.revert();
+    };
   }, []);
 
   /*
   ============================================================
-  KEYWORD COMPONENT
+  KEYWORD
   ============================================================
   */
 
@@ -97,8 +129,7 @@ export default function Services() {
           inline-block
           cursor-default
           whitespace-nowrap
-          will-change-[color]
-          transition-all
+          transition-colors
           duration-500
           ease-out
           ${
@@ -113,6 +144,7 @@ export default function Services() {
         {/* UNDERLINE */}
 
         <span
+          aria-hidden="true"
           className={`
             pointer-events-none
             absolute
@@ -134,6 +166,7 @@ export default function Services() {
         {/* SOFT GLOW */}
 
         <span
+          aria-hidden="true"
           className={`
             pointer-events-none
             absolute
@@ -166,8 +199,10 @@ export default function Services() {
       ref={root}
       id="services"
       className="
+        relative
         bg-div-black
         py-32
+        text-white
         md:py-48
       "
     >
@@ -179,13 +214,11 @@ export default function Services() {
           md:w-[calc(100%-80px)]
         "
       >
-
         {/* ==================================================
             HEADER
         ================================================== */}
 
         <div className="mb-20">
-
           <div
             className="
               font-mono
@@ -196,19 +229,6 @@ export default function Services() {
           >
             02 / START HERE
           </div>
-
-          {/*
-          ----------------------------------------------------
-          TITLE
-
-          IMPORTANT:
-          "trying" and "to build?" are each wrapped inside
-          their own inline-block + whitespace-nowrap.
-
-          This prevents the browser from compressing or
-          wrapping the letters into each other.
-          ----------------------------------------------------
-          */}
 
           <h2
             className="
@@ -247,8 +267,6 @@ export default function Services() {
             </span>
           </h2>
 
-          {/* DESCRIPTION */}
-
           <p
             className="
               mt-8
@@ -263,7 +281,6 @@ export default function Services() {
             technology. Just tell us what you're
             trying to achieve.
           </p>
-
         </div>
 
         {/* ==================================================
@@ -273,34 +290,40 @@ export default function Services() {
         <div
           className="
             grid
+            grid-cols-1
             border-l
             border-t
             border-white/10
             md:grid-cols-3
           "
         >
-
           {services.map((service) => (
             <a
               key={service.number}
-              href="#contact"
+              href="#calculator"
               data-cursor
               className="
                 service-card
                 group
+                relative
+                block
                 min-h-[300px]
                 border-b
                 border-r
                 border-white/10
+                bg-transparent
                 p-7
                 text-white
-                transition-all
+                no-underline
+                outline-none
+                transition-colors
                 duration-500
                 hover:bg-div-cream
                 hover:text-black
+                focus-visible:bg-div-cream
+                focus-visible:text-black
               "
             >
-
               {/* ==================================================
                   CARD HEADER
               ================================================== */}
@@ -308,6 +331,7 @@ export default function Services() {
               <div
                 className="
                   flex
+                  items-center
                   justify-between
                   font-mono
                   text-[9px]
@@ -315,23 +339,26 @@ export default function Services() {
                   transition-colors
                   duration-500
                   group-hover:text-black/40
+                  group-focus-visible:text-black/40
                 "
               >
-
                 <span>
                   {service.number}
                 </span>
 
                 <ArrowUpRight
                   size={15}
+                  strokeWidth={1.8}
                   className="
+                    text-white/40
                     transition-all
-                    duration-300
+                    duration-500
                     group-hover:rotate-45
                     group-hover:text-black
+                    group-focus-visible:rotate-45
+                    group-focus-visible:text-black
                   "
                 />
-
               </div>
 
               {/* ==================================================
@@ -339,24 +366,21 @@ export default function Services() {
               ================================================== */}
 
               <div className="mt-28">
-
-                {/* TITLE */}
-
                 <h3
                   className="
                     text-3xl
                     font-medium
+                    leading-none
                     tracking-[-0.05em]
                     text-white
                     transition-colors
                     duration-500
                     group-hover:text-black
+                    group-focus-visible:text-black
                   "
                 >
                   {service.title}
                 </h3>
-
-                {/* DESCRIPTION */}
 
                 <p
                   className="
@@ -368,18 +392,15 @@ export default function Services() {
                     transition-colors
                     duration-500
                     group-hover:text-black/55
+                    group-focus-visible:text-black/55
                   "
                 >
                   {service.description}
                 </p>
-
               </div>
-
             </a>
           ))}
-
         </div>
-
       </div>
     </section>
   );
