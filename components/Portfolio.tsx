@@ -299,7 +299,7 @@ function BLOCXPay() {
           
           <div className="w-[285px] shrink-0">
             <BLOCXImagePhone
-              src="/home.png"
+              src="/home2.png"
               alt="Blxck Pay Home"
             />
           </div>
