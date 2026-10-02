@@ -32,84 +32,19 @@ type Country = {
 ============================================================ */
 
 const countries: Country[] = [
-  {
-    code: "MX",
-    name: "Mexico",
-    dialCode: "+52",
-    flag: "🇲🇽",
-  },
-  {
-    code: "US",
-    name: "United States",
-    dialCode: "+1",
-    flag: "🇺🇸",
-  },
-  {
-    code: "CA",
-    name: "Canada",
-    dialCode: "+1",
-    flag: "🇨🇦",
-  },
-  {
-    code: "ES",
-    name: "Spain",
-    dialCode: "+34",
-    flag: "🇪🇸",
-  },
-  {
-    code: "CO",
-    name: "Colombia",
-    dialCode: "+57",
-    flag: "🇨🇴",
-  },
-  {
-    code: "AR",
-    name: "Argentina",
-    dialCode: "+54",
-    flag: "🇦🇷",
-  },
-  {
-    code: "CL",
-    name: "Chile",
-    dialCode: "+56",
-    flag: "🇨🇱",
-  },
-  {
-    code: "PE",
-    name: "Peru",
-    dialCode: "+51",
-    flag: "🇵🇪",
-  },
-  {
-    code: "BR",
-    name: "Brazil",
-    dialCode: "+55",
-    flag: "🇧🇷",
-  },
-  {
-    code: "GB",
-    name: "United Kingdom",
-    dialCode: "+44",
-    flag: "🇬🇧",
-  },
-  {
-    code: "FR",
-    name: "France",
-    dialCode: "+33",
-    flag: "🇫🇷",
-  },
-  {
-    code: "DE",
-    name: "Germany",
-    dialCode: "+49",
-    flag: "🇩🇪",
-  },
-  {
-    code: "IT",
-    name: "Italy",
-    dialCode: "+39",
-    flag: "🇮🇹",
-  },
+  { code: "MX", name: "Mexico", dialCode: "+52", flag: "🇲🇽" },
+  { code: "US", name: "United States", dialCode: "+1", flag: "🇺🇸" },
+  { code: "CA", name: "Canada", dialCode: "+1", flag: "🇨🇦" },
+  { code: "ES", name: "Spain", dialCode: "+34", flag: "🇪🇸" },
+  { code: "CO", name: "Colombia", dialCode: "+57", flag: "🇨🇴" },
+  { code: "AR", name: "Argentina", dialCode: "+54", flag: "🇦🇷" },
+  { code: "CL", name: "Chile", dialCode: "+56", flag: "🇨🇱" },
+  { code: "PE", name: "Peru", dialCode: "+51", flag: "🇵🇪" },
+  { code: "BR", name: "Brazil", dialCode: "+55", flag: "🇧🇷" },
+  { code: "GB", name: "United Kingdom", dialCode: "+44", flag: "🇬🇧" },
+  { code: "FR", name: "France", dialCode: "+33", flag: "🇫🇷" },
+  { code: "DE", name: "Germany", dialCode: "+49", flag: "🇩🇪" },
+  { code: "IT", name: "Italy", dialCode: "+39", flag: "🇮🇹" },
 ];
 
 /* ============================================================
@@ -166,21 +101,6 @@ const steps = [
    CALENDAR
 ============================================================ */
 
-/*
-  IMPORTANT:
-
-  Change this URL to your real availability page.
-
-  Example Google Calendar:
-  https://calendar.google.com/calendar/appointments/...
-
-  Example Calendly:
-  https://calendly.com/divlabs/...
-
-  Example Cal.com:
-  https://cal.com/divlabs/...
-*/
-
 const CALENDAR_URL =
   "https://calendar.google.com/calendar/u/0/r";
 
@@ -190,33 +110,24 @@ const CALENDAR_URL =
 
 export default function Calculator() {
   const [step, setStep] = useState(0);
-
   const [answers, setAnswers] = useState<string[]>([]);
-
   const [contactMethod, setContactMethod] =
     useState<ContactMethod>(null);
 
   const [name, setName] = useState("");
-
   const [email, setEmail] = useState("");
-
   const [phone, setPhone] = useState("");
 
   const [country, setCountry] = useState<Country>(
     countries[0]
   );
 
-  const [countryOpen, setCountryOpen] =
-    useState(false);
-
+  const [countryOpen, setCountryOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [success, setSuccess] = useState(false);
-
   const [error, setError] = useState("");
 
   const current = steps[step];
-
   const finished = step === steps.length;
 
   /* ==========================================================
@@ -251,39 +162,30 @@ export default function Calculator() {
 
   const reset = () => {
     setStep(0);
-
     setAnswers([]);
-
     setContactMethod(null);
 
     setName("");
-
     setEmail("");
-
     setPhone("");
 
     setCountry(countries[0]);
-
     setCountryOpen(false);
 
     setLoading(false);
-
     setSuccess(false);
-
     setError("");
   };
 
   /* ==========================================================
-     SELECT CONTACT METHOD
+     CONTACT METHOD
   ========================================================== */
 
   const chooseContactMethod = (
     method: ContactMethod
   ) => {
     setContactMethod(method);
-
     setError("");
-
     setSuccess(false);
   };
 
@@ -300,13 +202,11 @@ export default function Calculator() {
     if (contactMethod === "email") {
       if (!email.trim()) {
         setError("Please enter your email address.");
-
         return false;
       }
 
       if (!email.includes("@")) {
         setError("Please enter a valid email address.");
-
         return false;
       }
     }
@@ -314,7 +214,6 @@ export default function Calculator() {
     if (contactMethod === "whatsapp") {
       if (!phone.trim()) {
         setError("Please enter your WhatsApp number.");
-
         return false;
       }
 
@@ -322,7 +221,6 @@ export default function Calculator() {
 
       if (cleanPhone.length < 7) {
         setError("Please enter a valid phone number.");
-
         return false;
       }
     }
@@ -340,7 +238,6 @@ export default function Calculator() {
     }
 
     setLoading(true);
-
     setError("");
 
     try {
@@ -348,11 +245,9 @@ export default function Calculator() {
         "/api/project-inquiry",
         {
           method: "POST",
-
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify({
             name: name.trim(),
 
@@ -416,12 +311,6 @@ export default function Calculator() {
       "noopener,noreferrer"
     );
 
-    /*
-      Optionally, we can send the lead
-      to the backend first so you receive an email
-      even when the user opens the calendar.
-    */
-
     submitMeetingLead();
   };
 
@@ -432,7 +321,6 @@ export default function Calculator() {
   const submitMeetingLead = async () => {
     if (!name.trim()) {
       setError("Please tell us your name.");
-
       return;
     }
 
@@ -441,20 +329,14 @@ export default function Calculator() {
     try {
       await fetch("/api/project-inquiry", {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           name: name.trim(),
-
           contactMethod: "meeting",
-
           email: email.trim(),
-
           phone: "",
-
           country: null,
 
           answers: {
@@ -502,13 +384,11 @@ export default function Calculator() {
           md:w-[calc(100%-80px)]
         "
       >
-
         {/* ====================================================
             HEADER
         ==================================================== */}
 
         <div className="mb-16">
-
           <div
             className="
               font-mono
@@ -520,22 +400,36 @@ export default function Calculator() {
             06 / PROJECT STARTER
           </div>
 
-          <h2
+          {/* TITLE + EXPO IMAGE */}
+
+          <div
             className="
               mt-8
-              text-[clamp(3.8rem,8vw,8rem)]
-              font-semibold
-              leading-[0.84]
-              tracking-[-0.08em]
+              flex
+              items-center
+              justify-between
+              gap-8
             "
           >
-            Let&apos;s build
-            <br />
+            <h2
+              className="
+                text-[clamp(3.8rem,8vw,8rem)]
+                font-semibold
+                leading-[0.84]
+                tracking-[-0.08em]
+              "
+            >
+              Let&apos;s build
+              <br />
 
-            <span className="text-white/25">
-              something.
-            </span>
-          </h2>
+              <span className="text-white/25">
+                something.
+              </span>
+            </h2>
+
+            {/* EXPO */}
+    
+          </div>
 
           <p
             className="
@@ -547,11 +441,10 @@ export default function Calculator() {
             "
           >
             Tell us what you want to build.
-            You don't need to know anything about
-            technology. We'll turn your idea into
-            a clear plan.
+            You don&apos;t need to know anything
+            about technology. We&apos;ll turn your
+            idea into a clear plan.
           </p>
-
         </div>
 
         {/* ====================================================
@@ -567,13 +460,9 @@ export default function Calculator() {
             bg-[#090909]
           "
         >
-
-          {/* ==================================================
-              PROGRESS
-          ================================================== */}
+          {/* PROGRESS */}
 
           <div className="flex border-b border-white/10">
-
             {[...steps, { title: "Contact" }].map(
               (_, index) => (
                 <div
@@ -601,7 +490,6 @@ export default function Calculator() {
                 </div>
               )
             )}
-
           </div>
 
           {/* ==================================================
@@ -610,7 +498,6 @@ export default function Calculator() {
 
           {!finished && (
             <div className="p-6 md:p-12">
-
               <div
                 className="
                   mb-10
@@ -619,9 +506,7 @@ export default function Calculator() {
                   justify-between
                 "
               >
-
                 <div>
-
                   <div
                     className="
                       font-mono
@@ -659,7 +544,6 @@ export default function Calculator() {
                   >
                     {current.subtitle}
                   </p>
-
                 </div>
 
                 <span
@@ -671,13 +555,11 @@ export default function Calculator() {
                 >
                   {step + 1}/{steps.length}
                 </span>
-
               </div>
 
               {/* OPTIONS */}
 
               <div className="grid gap-2 md:grid-cols-2">
-
                 {current.options.map(
                   ([title, description]) => (
                     <button
@@ -702,7 +584,6 @@ export default function Calculator() {
                         hover:text-black
                       "
                     >
-
                       <div
                         className="
                           flex
@@ -710,9 +591,7 @@ export default function Calculator() {
                           justify-between
                         "
                       >
-
                         <div>
-
                           <h4 className="text-lg font-medium">
                             {title}
                           </h4>
@@ -731,7 +610,6 @@ export default function Calculator() {
                               {description}
                             </p>
                           )}
-
                         </div>
 
                         <ArrowRight
@@ -742,14 +620,13 @@ export default function Calculator() {
                             group-hover:translate-x-1
                           "
                         />
-
                       </div>
-
                     </button>
                   )
                 )}
-
               </div>
+
+              {/* BACK */}
 
               {step > 0 && (
                 <button
@@ -770,7 +647,6 @@ export default function Calculator() {
                   Back
                 </button>
               )}
-
             </div>
           )}
 
@@ -780,11 +656,6 @@ export default function Calculator() {
 
           {finished && (
             <div className="p-6 md:p-16">
-
-              {/* ================================================
-                  SUCCESS
-              ================================================= */}
-
               {success ? (
                 <SuccessState
                   contactMethod={contactMethod}
@@ -792,9 +663,9 @@ export default function Calculator() {
                 />
               ) : (
                 <>
-                  {/* ==============================================
-                      INTRO
-                  ============================================== */}
+                  {/* ============================================
+                      CONTACT METHOD SELECTION
+                  ============================================ */}
 
                   {!contactMethod && (
                     <>
@@ -814,7 +685,6 @@ export default function Calculator() {
                       </div>
 
                       <div className="mt-10">
-
                         <div
                           className="
                             font-mono
@@ -858,10 +728,9 @@ export default function Calculator() {
                           you need. How would you like
                           to continue?
                         </p>
-
                       </div>
 
-                      {/* PROJECT SUMMARY */}
+                      {/* SUMMARY */}
 
                       <div
                         className="
@@ -876,38 +745,28 @@ export default function Calculator() {
                           md:grid-cols-2
                         "
                       >
-
                         <SummaryItem
                           label="PROJECT"
-                          value={
-                            projectSummary.product
-                          }
+                          value={projectSummary.product}
                         />
 
                         <SummaryItem
                           label="GOAL"
-                          value={
-                            projectSummary.goal
-                          }
+                          value={projectSummary.goal}
                         />
 
                         <SummaryItem
                           label="COMPLEXITY"
-                          value={
-                            projectSummary.complexity
-                          }
+                          value={projectSummary.complexity}
                         />
 
                         <SummaryItem
                           label="TIMELINE"
-                          value={
-                            projectSummary.timeline
-                          }
+                          value={projectSummary.timeline}
                         />
-
                       </div>
 
-                      {/* CONTACT METHODS */}
+                      {/* CONTACT OPTIONS */}
 
                       <div
                         className="
@@ -917,7 +776,6 @@ export default function Calculator() {
                           md:grid-cols-3
                         "
                       >
-
                         {/* WHATSAPP */}
 
                         <button
@@ -941,7 +799,6 @@ export default function Calculator() {
                             hover:text-black
                           "
                         >
-
                           <MessageCircle
                             size={20}
                             className="
@@ -967,7 +824,6 @@ export default function Calculator() {
                             Leave your number and
                             we&apos;ll contact you.
                           </p>
-
                         </button>
 
                         {/* EMAIL */}
@@ -993,7 +849,6 @@ export default function Calculator() {
                             hover:text-black
                           "
                         >
-
                           <Mail
                             size={20}
                             className="
@@ -1020,7 +875,6 @@ export default function Calculator() {
                             information and follow up
                             with you.
                           </p>
-
                         </button>
 
                         {/* MEETING */}
@@ -1046,7 +900,6 @@ export default function Calculator() {
                             hover:text-black
                           "
                         >
-
                           <Calendar
                             size={20}
                             className="
@@ -1072,10 +925,10 @@ export default function Calculator() {
                             Choose a time that works
                             for you.
                           </p>
-
                         </button>
-
                       </div>
+
+                      {/* RESET */}
 
                       <button
                         type="button"
@@ -1097,12 +950,9 @@ export default function Calculator() {
                     </>
                   )}
 
-                  {/* ==============================================
-                      WHATSAPP FORM
-                  ============================================== */}
+                  {/* WHATSAPP */}
 
-                  {contactMethod ===
-                    "whatsapp" && (
+                  {contactMethod === "whatsapp" && (
                     <WhatsAppForm
                       name={name}
                       setName={setName}
@@ -1111,9 +961,7 @@ export default function Calculator() {
                       country={country}
                       setCountry={setCountry}
                       countryOpen={countryOpen}
-                      setCountryOpen={
-                        setCountryOpen
-                      }
+                      setCountryOpen={setCountryOpen}
                       loading={loading}
                       error={error}
                       onBack={() =>
@@ -1123,12 +971,9 @@ export default function Calculator() {
                     />
                   )}
 
-                  {/* ==============================================
-                      EMAIL FORM
-                  ============================================== */}
+                  {/* EMAIL */}
 
-                  {contactMethod ===
-                    "email" && (
+                  {contactMethod === "email" && (
                     <EmailForm
                       name={name}
                       setName={setName}
@@ -1143,12 +988,9 @@ export default function Calculator() {
                     />
                   )}
 
-                  {/* ==============================================
-                      MEETING
-                  ============================================== */}
+                  {/* MEETING */}
 
-                  {contactMethod ===
-                    "meeting" && (
+                  {contactMethod === "meeting" && (
                     <MeetingForm
                       name={name}
                       setName={setName}
@@ -1164,10 +1006,8 @@ export default function Calculator() {
                   )}
                 </>
               )}
-
             </div>
           )}
-
         </div>
       </div>
     </section>
@@ -1187,7 +1027,6 @@ function SummaryItem({
 }) {
   return (
     <div className="bg-[#090909] p-5">
-
       <div
         className="
           font-mono
@@ -1202,7 +1041,6 @@ function SummaryItem({
       <div className="mt-3 text-sm text-white/70">
         {value}
       </div>
-
     </div>
   );
 }
@@ -1240,7 +1078,6 @@ function WhatsAppForm({
 }) {
   return (
     <div>
-
       <div
         className="
           flex
@@ -1283,9 +1120,6 @@ function WhatsAppForm({
       </p>
 
       <div className="mt-8 max-w-lg">
-
-        {/* NAME */}
-
         <label
           className="
             mb-2
@@ -1323,8 +1157,6 @@ function WhatsAppForm({
           "
         />
 
-        {/* PHONE */}
-
         <label
           className="
             mb-2
@@ -1341,8 +1173,7 @@ function WhatsAppForm({
         </label>
 
         <div className="relative flex">
-
-          {/* COUNTRY */}
+          {/* COUNTRY BUTTON */}
 
           <button
             type="button"
@@ -1366,7 +1197,6 @@ function WhatsAppForm({
               hover:bg-white/[0.05]
             "
           >
-
             <span>{country.flag}</span>
 
             <span className="text-white/70">
@@ -1377,10 +1207,9 @@ function WhatsAppForm({
               size={14}
               className="text-white/30"
             />
-
           </button>
 
-          {/* COUNTRY MENU */}
+          {/* COUNTRY DROPDOWN */}
 
           {countryOpen && (
             <div
@@ -1400,7 +1229,6 @@ function WhatsAppForm({
                 shadow-2xl
               "
             >
-
               {countries.map((item) => (
                 <button
                   key={item.code}
@@ -1424,10 +1252,7 @@ function WhatsAppForm({
                     hover:text-black
                   "
                 >
-
-                  <span>
-                    {item.flag}
-                  </span>
+                  <span>{item.flag}</span>
 
                   <span className="flex-1">
                     {item.name}
@@ -1436,10 +1261,8 @@ function WhatsAppForm({
                   <span className="opacity-50">
                     {item.dialCode}
                   </span>
-
                 </button>
               ))}
-
             </div>
           )}
 
@@ -1469,9 +1292,7 @@ function WhatsAppForm({
               focus:border-white/40
             "
           />
-
         </div>
-
       </div>
 
       {/* ERROR */}
@@ -1494,10 +1315,9 @@ function WhatsAppForm({
         </div>
       )}
 
-      {/* ACTIONS */}
+      {/* BUTTONS */}
 
       <div className="mt-6 flex flex-wrap gap-3">
-
         <button
           type="button"
           disabled={loading}
@@ -1519,7 +1339,6 @@ function WhatsAppForm({
             disabled:opacity-40
           "
         >
-
           {loading ? (
             <>
               <span
@@ -1533,17 +1352,14 @@ function WhatsAppForm({
                   border-t-black
                 "
               />
-
               Sending...
             </>
           ) : (
             <>
               <Send size={16} />
-
               Send project
             </>
           )}
-
         </button>
 
         <button
@@ -1563,9 +1379,7 @@ function WhatsAppForm({
         >
           Back
         </button>
-
       </div>
-
     </div>
   );
 }
@@ -1595,7 +1409,6 @@ function EmailForm({
 }) {
   return (
     <div>
-
       <div
         className="
           flex
@@ -1638,7 +1451,6 @@ function EmailForm({
       </p>
 
       <div className="mt-8 max-w-lg">
-
         <label
           className="
             mb-2
@@ -1713,8 +1525,9 @@ function EmailForm({
             focus:border-white/40
           "
         />
-
       </div>
+
+      {/* ERROR */}
 
       {error && (
         <div
@@ -1734,8 +1547,9 @@ function EmailForm({
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      {/* BUTTONS */}
 
+      <div className="mt-6 flex flex-wrap gap-3">
         <button
           type="button"
           disabled={loading}
@@ -1757,7 +1571,6 @@ function EmailForm({
             disabled:opacity-40
           "
         >
-
           {loading ? (
             <>
               <span
@@ -1771,17 +1584,14 @@ function EmailForm({
                   border-t-black
                 "
               />
-
               Sending...
             </>
           ) : (
             <>
               <Send size={16} />
-
               Send information
             </>
           )}
-
         </button>
 
         <button
@@ -1800,9 +1610,7 @@ function EmailForm({
         >
           Back
         </button>
-
       </div>
-
     </div>
   );
 }
@@ -1832,7 +1640,6 @@ function MeetingForm({
 }) {
   return (
     <div>
-
       <div
         className="
           flex
@@ -1875,7 +1682,6 @@ function MeetingForm({
       </p>
 
       <div className="mt-8 max-w-lg">
-
         <label
           className="
             mb-2
@@ -1950,8 +1756,9 @@ function MeetingForm({
             focus:border-white/40
           "
         />
-
       </div>
+
+      {/* ERROR */}
 
       {error && (
         <div
@@ -1971,8 +1778,9 @@ function MeetingForm({
         </div>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      {/* BUTTONS */}
 
+      <div className="mt-6 flex flex-wrap gap-3">
         <button
           type="button"
           disabled={loading}
@@ -1994,7 +1802,6 @@ function MeetingForm({
             disabled:opacity-40
           "
         >
-
           {loading ? (
             <>
               <span
@@ -2014,11 +1821,9 @@ function MeetingForm({
           ) : (
             <>
               <Calendar size={16} />
-
               View availability
             </>
           )}
-
         </button>
 
         <button
@@ -2037,9 +1842,7 @@ function MeetingForm({
         >
           Back
         </button>
-
       </div>
-
     </div>
   );
 }
@@ -2076,13 +1879,10 @@ function SuccessState({
   };
 
   const content =
-    messages[
-      contactMethod || "email"
-    ];
+    messages[contactMethod || "email"];
 
   return (
     <div>
-
       <div
         className="
           flex
@@ -2139,7 +1939,6 @@ function SuccessState({
         <RotateCcw size={13} />
         Start another project
       </button>
-
     </div>
   );
 }

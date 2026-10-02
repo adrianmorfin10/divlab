@@ -189,31 +189,72 @@ export default function Process() {
             04 / Process
           </div>
 
-          <h2
-            className="
-              mt-7
-              max-w-5xl
-              text-[clamp(4rem,8vw,9rem)]
-              font-semibold
-              leading-[0.82]
-              tracking-[-0.08em]
-            "
-          >
-            <CursorText
-              text="From idea"
-              active={activeStep !== null}
-            />
+          {/* TITLE + PILL */}
 
-            <br />
-
-            <span className="text-black/25">
+          <div className="mt-7 flex items-end gap-6 md:gap-10">
+            <h2
+              className="
+                max-w-5xl
+                text-[clamp(4rem,8vw,9rem)]
+                font-semibold
+                leading-[0.82]
+                tracking-[-0.08em]
+              "
+            >
               <CursorText
-                text="to reality."
+                text="From idea"
                 active={activeStep !== null}
-                muted
               />
-            </span>
-          </h2>
+
+              <br />
+
+              <span className="text-black/25">
+                <CursorText
+                  text="to reality."
+                  active={activeStep !== null}
+                  muted
+                />
+              </span>
+            </h2>
+
+            {/* PILL IMAGE */}
+
+            <motion.img
+  src="/pill.png"
+  alt=""
+  aria-hidden="true"
+  initial={{
+    opacity: 0,
+    y: 20,
+    scale: 0.94,
+  }}
+  whileInView={{
+    opacity: 1,
+    y: 0,
+    scale: 1,
+  }}
+  viewport={{
+    once: true,
+    amount: 0.25,
+  }}
+  transition={{
+    duration: 0.7,
+    delay: 0.15,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="
+    mb-0
+    hidden
+    h-auto
+    w-[260px]
+    shrink-0
+    object-contain
+    md:block
+    lg:w-[360px]
+    xl:w-[430px]
+  "
+/>
+          </div>
 
           <p className="mt-8 max-w-xl text-sm leading-7 text-black/45 md:text-base">
             A clear process keeps the work focused, transparent
@@ -372,7 +413,13 @@ function ProcessCard({
         transition={{
           duration: 0.3,
         }}
-        className="relative z-10 font-mono text-[9px]"
+        className="
+          relative
+          z-10
+          font-mono
+          text-[12px]
+          md:text-[13px]
+        "
       >
         {step.number}
       </motion.span>

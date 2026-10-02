@@ -102,6 +102,21 @@ export default function Portfolio() {
             </button>
           </div>
         </div>
+
+        {/* MOBILE HORIZONTAL SCROLL HINT */}
+        <div className="mt-8 flex items-center gap-3 md:hidden">
+          <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2.5">
+            <ArrowLeft size={11} className="text-white/35" />
+            <span className="font-mono text-[8px] uppercase tracking-[0.22em] text-white/45">
+              Swipe horizontally
+            </span>
+            <ArrowRight size={11} className="text-white/55" />
+          </div>
+
+          <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/20">
+            01 — 05
+          </span>
+        </div>
       </div>
 
       {/* HORIZONTAL PROJECTS */}
@@ -117,7 +132,7 @@ export default function Portfolio() {
         <Project
           number="01"
           category="FINTECH / MOBILE PRODUCT"
-          title="BLOCX Pay"
+          title="Blxck Pay"
           description="Mobile financial experience designed around balance, transfers and control of personal finances."
         >
           <BLOCXPay />
@@ -232,741 +247,206 @@ function Project({
 ========================================================= */
 
 function BLOCXPay() {
-  const [active, setActive] = useState<"home" | "transfer" | "menu">("home");
-  const [showBalance, setShowBalance] = useState(true);
-
-  return (
-    <div className="relative min-h-[720px] overflow-hidden bg-[#07152e] py-16 md:min-h-[820px] md:py-20">
-      <div className="absolute left-6 top-6 z-40 font-mono text-[8px] uppercase tracking-[0.25em] text-white/30">
-        BLOCX PAY / MOBILE PRODUCT
-      </div>
-
-      {/* DESKTOP: 3 PHONES */}
-
-      <div className="relative z-10 mx-auto flex min-h-[650px] items-center justify-center gap-5 px-5 md:gap-8">
-        {/* PHONE 1 */}
-
-        <div className="hidden w-[270px] shrink-0 rotate-[-2deg] md:block">
-          <BLOCXPhone>
-            <BLOCXHome
-              showBalance={showBalance}
-              setShowBalance={setShowBalance}
-              onMenu={() => setActive("menu")}
-              onTransfer={() => setActive("transfer")}
+    return (
+      <div className="relative min-h-[720px] overflow-hidden bg-[#07152e] py-16 md:min-h-[820px] md:py-20">
+        
+        {/* PROJECT LABEL */}
+  
+        <div className="absolute left-6 top-6 z-40 font-mono text-[8px] uppercase tracking-[0.25em] text-white/30">
+          BLXCK PAY / MOBILE PRODUCT
+        </div>
+  
+        {/* =====================================================
+            DESKTOP — 3 SCREENS
+        ===================================================== */}
+  
+        <div className="relative z-10 mx-auto hidden min-h-[650px] items-center justify-center gap-5 px-5 md:flex md:gap-8">
+          
+          {/* HOME */}
+  
+          <div className="w-[270px] shrink-0 rotate-[-2deg]">
+            <BLOCXImagePhone
+              src="/home.png"
+              alt="Blxck Pay Home"
             />
-          </BLOCXPhone>
-        </div>
-
-        {/* PHONE 2 */}
-
-        <div className="w-[285px] shrink-0 md:w-[300px]">
-          <BLOCXPhone>
-            <BLOCXTransfer
-              onBack={() => setActive("home")}
+          </div>
+  
+          {/* MENU */}
+  
+          <div className="w-[300px] shrink-0">
+            <BLOCXImagePhone
+              src="/menu.png"
+              alt="Blxck Pay Menu"
             />
-          </BLOCXPhone>
+          </div>
+  
+          {/* COMPROBANTES */}
+  
+          <div className="w-[270px] shrink-0 rotate-[2deg]">
+            <BLOCXImagePhone
+              src="/comprobantes.png"
+              alt="Blxck Pay Comprobantes"
+            />
+          </div>
+  
         </div>
-
-        {/* PHONE 3 */}
-
-        <div className="hidden w-[270px] shrink-0 rotate-[2deg] md:block">
-          <BLOCXPhone>
-            <div className="relative h-full overflow-hidden">
-              <BLOCXHome
-                showBalance={showBalance}
-                setShowBalance={setShowBalance}
-                onMenu={() => setActive("menu")}
-                onTransfer={() => setActive("transfer")}
-              />
-
-              {/* MENU OVERLAY */}
-
-              <div className="absolute inset-0 z-30 bg-[#06152f]/45 backdrop-blur-[14px]" />
-
-              <div className="absolute inset-x-4 top-4 bottom-4 z-40 rounded-[28px] border border-white/15 bg-white/[0.10] p-5 shadow-2xl backdrop-blur-2xl">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-semibold text-white">
-                    BLOCX
-                  </div>
-
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
-                    <X size={14} />
-                  </div>
-                </div>
-
-                <div className="mt-10 space-y-2">
-                  <BLOCXMenuItem
-                    icon={Home}
-                    label="Inicio"
-                    active
-                  />
-
-                  <BLOCXMenuItem
-                    icon={Send}
-                    label="Transferencias"
-                  />
-
-                  <BLOCXMenuItem
-                    icon={CreditCard}
-                    label="Mis tarjetas"
-                  />
-
-                  <BLOCXMenuItem
-                    icon={Wallet}
-                    label="Mi cuenta"
-                  />
-
-                  <BLOCXMenuItem
-                    icon={Settings}
-                    label="Configuración"
-                  />
-                </div>
-
-                <div className="absolute bottom-5 left-5 right-5">
-                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
-                        <CircleUserRound size={16} />
-                      </div>
-
-                      <div>
-                        <div className="text-xs font-medium">
-                          Ignacio Morfin
-                        </div>
-
-                        <div className="mt-1 text-[9px] text-white/40">
-                          Cuenta personal
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </BLOCXPhone>
+  
+        {/* =====================================================
+            MOBILE — ONLY HOME
+        ===================================================== */}
+  
+        <div className="relative z-10 flex min-h-[650px] items-center justify-center px-5 md:hidden">
+          
+          <div className="w-[285px] shrink-0">
+            <BLOCXImagePhone
+              src="/home.png"
+              alt="Blxck Pay Home"
+            />
+          </div>
+  
         </div>
+  
       </div>
-
-      {/* MOBILE SWITCHER */}
-
-      <div className="absolute bottom-6 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-full border border-white/10 bg-black/30 p-1 backdrop-blur-xl md:hidden">
-        <button
-          onClick={() => setActive("home")}
-          className={`rounded-full px-4 py-2 text-[9px] ${
-            active === "home"
-              ? "bg-white text-black"
-              : "text-white/50"
-          }`}
-        >
-          Home
-        </button>
-
-        <button
-          onClick={() => setActive("transfer")}
-          className={`rounded-full px-4 py-2 text-[9px] ${
-            active === "transfer"
-              ? "bg-white text-black"
-              : "text-white/50"
-          }`}
-        >
-          Transferir
-        </button>
-
-        <button
-          onClick={() => setActive("menu")}
-          className={`rounded-full px-4 py-2 text-[9px] ${
-            active === "menu"
-              ? "bg-white text-black"
-              : "text-white/50"
-          }`}
-        >
-          Menú
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
-   BLOCX PHONE
-========================================================= */
-
-function BLOCXPhone({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="relative mx-auto aspect-[9/18.5] w-full max-w-[300px] overflow-hidden rounded-[40px] border border-white/20 bg-[#06162f] shadow-[0_35px_100px_rgba(0,0,0,.45)]">
-      <div className="absolute left-1/2 top-2 z-50 h-5 w-24 -translate-x-1/2 rounded-full bg-black/80" />
-
+    );
+  }
+  
+  /* =========================================================
+     BLOCX IMAGE PHONE
+  ========================================================= */
+  
+  function BLOCXImagePhone({
+    src,
+    alt,
+  }: {
+    src: string;
+    alt: string;
+  }) {
+    return (
       <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url('/backapp.png')",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      />
-
-      <div className="relative h-full">{children}</div>
-    </div>
-  );
-}
-
-/* =========================================================
-   BLOCX HOME
-========================================================= */
-
-function BLOCXHome({
-  showBalance,
-  setShowBalance,
-  onMenu,
-  onTransfer,
-}: {
-  showBalance: boolean;
-  setShowBalance: React.Dispatch<React.SetStateAction<boolean>>;
-  onMenu: () => void;
-  onTransfer: () => void;
-}) {
-  return (
-    <div className="flex h-full flex-col px-5 pb-5 pt-11 text-white">
-      <div className="flex items-center justify-between">
-        <button
-          onClick={onMenu}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 backdrop-blur-xl"
-        >
-          <Menu size={17} />
-        </button>
-
-        <div className="text-[11px] font-semibold tracking-wide">
-          BLOCX
-        </div>
-
-        <button className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
-          <Bell size={15} />
-        </button>
-      </div>
-
-      <div className="mt-8">
-        <div className="text-[11px] text-white/55">
-          Bienvenido Ignacio Morfin
-        </div>
-
-        <div className="mt-1 text-[9px] text-white/35">
-          Este es el resumen de tu cuenta
-        </div>
-      </div>
-
-      <div className="mt-5 rounded-[24px] border border-white/15 bg-white/[0.11] p-5 shadow-xl backdrop-blur-xl">
-        <div className="flex items-center justify-between">
-          <div className="text-[9px] uppercase tracking-[0.15em] text-white/45">
-            Balance disponible
-          </div>
-
-          <button
-            onClick={() => setShowBalance((value) => !value)}
-            className="text-white/55"
-          >
-            {showBalance ? <EyeOff size={14} /> : <Eye size={14} />}
-          </button>
-        </div>
-
-        <div className="mt-3 text-[29px] font-medium tracking-[-0.05em]">
-          {showBalance ? "$32,000.00" : "••••••••"}
-        </div>
-
-        <div className="mt-1 text-[9px] text-white/40">
-          USD
-        </div>
-
-        <div className="mt-6 flex items-center gap-3">
-          <div className="h-7 w-11 rounded-md bg-gradient-to-br from-white/80 to-white/20" />
-
-          <div>
-            <div className="text-[8px] text-white/35">
-              Visa Débito
-            </div>
-
-            <div className="mt-1 text-[9px]">
-              **** 1234
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5 grid grid-cols-3 gap-2">
-        <BLOCXAction
-          icon={Send}
-          label="Transferir"
-          onClick={onTransfer}
-        />
-
-        <BLOCXAction
-          icon={ArrowDown}
-          label="Recibir"
-        />
-
-        <BLOCXAction
-          icon={CreditCard}
-          label="Cuenta"
-        />
-      </div>
-
-      <div className="mt-6 flex items-center justify-between">
-        <div className="text-[11px] font-medium">
-          Envío internacional
-        </div>
-
-        <ChevronRight
-          size={14}
-          className="text-white/40"
-        />
-      </div>
-
-      <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-xl">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-[9px] text-white/45">
-              Próximo envío
-            </div>
-
-            <div className="mt-1 text-xs">
-              México → Colombia
-            </div>
-          </div>
-
-          <ArrowUpRight
-            size={16}
-            className="text-white/40"
-          />
-        </div>
-      </div>
-
-      <div className="mt-6">
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-medium">
-            Actividad
-          </span>
-
-          <span className="text-[8px] text-white/35">
-            Ver todo
-          </span>
-        </div>
-
-        <div className="mt-3 space-y-2">
-          <BLOCXTransaction
-            title="Transferencia recibida"
-            subtitle="Hoy, 10:32"
-            amount="+$2,500.00"
-            positive
-          />
-
-          <BLOCXTransaction
-            title="Envío internacional"
-            subtitle="Ayer, 16:20"
-            amount="-$850.00"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function BLOCXAction({
-  icon: Icon,
-  label,
-  onClick,
-}: {
-  icon: React.ElementType;
-  label: string;
-  onClick?: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.08] px-2 py-3 backdrop-blur-xl transition hover:bg-white/[0.14]"
-    >
-      <Icon size={15} />
-
-      <span className="text-[8px] text-white/70">
-        {label}
-      </span>
-    </button>
-  );
-}
-
-function BLOCXTransaction({
-  title,
-  subtitle,
-  amount,
-  positive,
-}: {
-  title: string;
-  subtitle: string;
-  amount: string;
-  positive?: boolean;
-}) {
-  return (
-    <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.05] px-3 py-2.5">
-      <div className="flex items-center gap-3">
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10">
-          {positive ? (
-            <ArrowDown size={12} />
-          ) : (
-            <ArrowUp size={12} />
-          )}
-        </div>
-
-        <div>
-          <div className="text-[8px]">
-            {title}
-          </div>
-
-          <div className="mt-1 text-[7px] text-white/30">
-            {subtitle}
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={`text-[8px] ${
-          positive ? "text-emerald-300" : "text-white/70"
-        }`}
+        className="
+          relative
+          mx-auto
+          aspect-[9/18.5]
+          w-full
+          max-w-[300px]
+          overflow-hidden
+          rounded-[40px]
+          border
+          border-white/20
+          bg-[#06162f]
+          shadow-[0_35px_100px_rgba(0,0,0,.45)]
+        "
       >
-        {amount}
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
-   BLOCX TRANSFER
-========================================================= */
-
-function BLOCXTransfer({
-  onBack,
-}: {
-  onBack: () => void;
-}) {
-  const countries = [
-    "Colombia",
-    "México",
-    "Argentina",
-    "Bolivia",
-    "Ecuador",
-    "Costa Rica",
-    "Cuba",
-    "Francia",
-    "España",
-  ];
-
-  const [search, setSearch] = useState("");
-
-  const filtered = countries.filter((country) =>
-    country.toLowerCase().includes(search.toLowerCase())
-  );
-
-  return (
-    <div className="flex h-full flex-col px-5 pb-5 pt-11 text-white">
-      <div className="flex items-center justify-between">
-        <button
-          onClick={onBack}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10"
-        >
-          <ChevronLeft size={17} />
-        </button>
-
-        <div className="text-[10px] font-medium">
-          Transferencia internacional
-        </div>
-
-        <div className="w-9" />
-      </div>
-
-      <div className="mt-8">
-        <div className="text-[20px] font-medium tracking-[-0.04em]">
-          ¿A dónde quieres
-          <br />
-          enviar dinero?
-        </div>
-
-        <div className="mt-2 text-[9px] leading-4 text-white/40">
-          Selecciona el país donde se encuentra el destinatario.
-        </div>
-      </div>
-
-      <div className="mt-6 flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.08] px-3 py-3">
-        <Search
-          size={14}
-          className="text-white/35"
+  
+        {/* IPHONE / DEVICE NOTCH */}
+  
+        <div
+          className="
+            absolute
+            left-1/2
+            top-2
+            z-30
+            h-5
+            w-24
+            -translate-x-1/2
+            rounded-full
+            bg-black/80
+          "
         />
-
-        <input
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Buscar país"
-          className="w-full bg-transparent text-[9px] outline-none placeholder:text-white/30"
+  
+        {/* REAL FIGMA SCREEN */}
+  
+        <img
+          src={src}
+          alt={alt}
+          className="
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+          "
         />
-      </div>
-
-      <div className="mt-6 text-[8px] uppercase tracking-[0.2em] text-white/30">
-        Recientes
-      </div>
-
-      <div className="mt-3">
-        <CountryRow
-          country="Colombia"
-          flag="🇨🇴"
-          recent
+  
+        {/* SUBTLE GLASS / DEVICE BORDER */}
+  
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-0
+            rounded-[40px]
+            border
+            border-white/10
+          "
         />
+  
       </div>
-
-      <div className="mt-6 text-[8px] uppercase tracking-[0.2em] text-white/30">
-        Todos los países
-      </div>
-
-      <div className="mt-2 flex-1 overflow-auto">
-        {filtered.map((country) => (
-          <CountryRow
-            key={country}
-            country={country}
-            flag={
-              country === "México"
-                ? "🇲🇽"
-                : country === "Argentina"
-                  ? "🇦🇷"
-                  : country === "Francia"
-                    ? "🇫🇷"
-                    : country === "España"
-                      ? "🇪🇸"
-                      : "🌎"
-            }
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function CountryRow({
-  country,
-  flag,
-  recent,
-}: {
-  country: string;
-  flag: string;
-  recent?: boolean;
-}) {
-  return (
-    <button className="flex w-full items-center justify-between border-b border-white/5 py-3 text-left">
-      <div className="flex items-center gap-3">
-        <span className="text-[18px]">
-          {flag}
-        </span>
-
-        <span className="text-[10px]">
-          {country}
-        </span>
-      </div>
-
-      {recent ? (
-        <span className="text-[7px] text-white/30">
-          Reciente
-        </span>
-      ) : (
-        <ChevronRight
-          size={12}
-          className="text-white/25"
-        />
-      )}
-    </button>
-  );
-}
-
-function BLOCXMenuItem({
-  icon: Icon,
-  label,
-  active,
-}: {
-  icon: React.ElementType;
-  label: string;
-  active?: boolean;
-}) {
-  return (
-    <button
-      className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left ${
-        active
-          ? "bg-white text-black"
-          : "text-white/70 hover:bg-white/10"
-      }`}
-    >
-      <Icon size={15} />
-
-      <span className="text-[10px]">
-        {label}
-      </span>
-    </button>
-  );
-}
+    );
+  }
 
 /* =========================================================
    AGENDA
 ========================================================= */
 
 function Agenda() {
-  const [screen, setScreen] = useState<
-    "calendar" | "new" | "sales" | "reports"
-  >("calendar");
+  const [screen, setScreen] = useState<"calendar" | "new" | "sales" | "reports">("calendar");
 
   return (
-    <div className="relative min-h-[720px] overflow-hidden bg-[#f5f5f7] text-[#222] md:min-h-[820px]">
+    <div className="relative min-h-[720px] overflow-hidden bg-[#f5f5f7] text-[#222] md:min-h-[820px]" style={{ fontFamily: "Poppins, Arial, sans-serif" }}>
       <div className="flex h-full min-h-[720px] md:min-h-[820px]">
-        {/* SIDEBAR */}
-
-        <aside className="hidden w-[220px] shrink-0 border-r border-[#e5e5e8] bg-white md:flex md:flex-col">
-          <div className="flex h-[74px] items-center border-b border-[#ededee] px-6">
+        <aside className="hidden w-[220px] shrink-0 bg-[#111111] text-white md:flex md:flex-col">
+          <div className="flex h-[74px] items-center border-b border-white/10 px-6">
             <div>
-              <div className="text-[17px] font-semibold tracking-[-0.04em]">
-                Agenda
-              </div>
-
-              <div className="mt-1 text-[8px] text-[#999]">
-                Gestión de negocio
-              </div>
+              <div className="text-[17px] font-semibold tracking-[-0.04em]" style={{ fontFamily: "Poppins, Arial, sans-serif" }}>Agenda</div>
+              <div className="mt-1 text-[8px] text-white/35" style={{ fontFamily: "Lato, Arial, sans-serif" }}>Business management</div>
             </div>
           </div>
-
           <div className="flex-1 p-4">
-            <AgendaNav
-              icon={Calendar}
-              label="Citas"
-              active={screen === "calendar" || screen === "new"}
-              onClick={() => setScreen("calendar")}
-            />
-
-            <AgendaNav
-              icon={ShoppingBag}
-              label="Ventas"
-              active={screen === "sales"}
-              onClick={() => setScreen("sales")}
-            />
-
-            <AgendaNav
-              icon={Users}
-              label="Clientes"
-            />
-
-            <AgendaNav
-              icon={Package}
-              label="Productos"
-            />
-
-            <AgendaNav
-              icon={BarChart3}
-              label="Reportes"
-              active={screen === "reports"}
-              onClick={() => setScreen("reports")}
-            />
-
-            <AgendaNav
-              icon={User}
-              label="Empleados"
-            />
-
-            <div className="my-5 h-px bg-[#ededee]" />
-
-            <AgendaNav
-              icon={Settings}
-              label="Configuración"
-            />
+            <AgendaNav icon={Calendar} label="Appointments" active={screen === "calendar" || screen === "new"} onClick={() => setScreen("calendar")} />
+            <AgendaNav icon={ShoppingBag} label="Sales" active={screen === "sales"} onClick={() => setScreen("sales")} />
+            <AgendaNav icon={Users} label="Customers" />
+            <AgendaNav icon={Package} label="Products" />
+            <AgendaNav icon={BarChart3} label="Reports" active={screen === "reports"} onClick={() => setScreen("reports")} />
+            <AgendaNav icon={User} label="Employees" />
+            <div className="my-5 h-px bg-white/10" />
+            <AgendaNav icon={Settings} label="Settings" />
           </div>
-
-          <div className="border-t border-[#ededee] p-4">
+          <div className="border-t border-white/10 p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#ececf0]">
-                <CircleUserRound size={14} />
-              </div>
-
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10"><CircleUserRound size={14} /></div>
               <div>
-                <div className="text-[9px] font-medium">
-                  Adrian Morfin
-                </div>
-
-                <div className="mt-1 text-[7px] text-[#999]">
-                  Administrador
-                </div>
+                <div className="text-[9px] font-medium">Alberto Tuetinez</div>
+                <div className="mt-1 text-[7px] text-white/35">Administrator</div>
               </div>
             </div>
           </div>
         </aside>
 
-        {/* MAIN */}
-
-        <main className="min-w-0 flex-1">
+        <main className="min-w-0 flex-1" style={{ fontFamily: "Lato, Arial, sans-serif" }}>
           <div className="flex h-[74px] items-center justify-between border-b border-[#e7e7e9] bg-white px-5 md:px-8">
             <div className="flex items-center gap-3">
-              <Menu
-                size={17}
-                className="text-[#888] md:hidden"
-              />
-
+              <Menu size={17} className="text-[#888] md:hidden" />
               <div>
-                <div className="text-[8px] uppercase tracking-[0.18em] text-[#aaa]">
-                  Agenda
-                </div>
-
-                <div className="mt-1 text-[13px] font-medium">
-                  {screen === "reports"
-                    ? "Estadísticas e informes"
-                    : screen === "sales"
-                      ? "Ventas"
-                      : "Citas"}
+                <div className="text-[8px] uppercase tracking-[0.18em] text-[#aaa]">Agenda</div>
+                <div className="mt-1 text-[13px] font-medium" style={{ fontFamily: "Poppins, Arial, sans-serif" }}>
+                  {screen === "reports" ? "Reports & analytics" : screen === "sales" ? "Sales" : screen === "new" ? "New appointment" : "Appointments"}
                 </div>
               </div>
             </div>
-
             <div className="flex items-center gap-4">
-              <Search
-                size={15}
-                className="text-[#999]"
-              />
-
-              <Bell
-                size={15}
-                className="text-[#999]"
-              />
-
-              <button
-                onClick={() => setScreen("new")}
-                className="hidden items-center gap-2 rounded-lg bg-[#222] px-4 py-2.5 text-[9px] font-medium text-white md:flex"
-              >
-                <Plus size={13} />
-                Nueva cita
+              <Search size={15} className="text-[#999]" />
+              <Bell size={15} className="text-[#999]" />
+              <button onClick={() => setScreen("new")} className="hidden items-center gap-2 rounded-lg bg-[#222] px-4 py-2.5 text-[9px] font-medium text-white md:flex">
+                <Plus size={13} /> New appointment
               </button>
             </div>
           </div>
-
           <div className="p-5 md:p-8">
-            {screen === "calendar" && (
-              <AgendaCalendar
-                onNew={() => setScreen("new")}
-              />
-            )}
-
-            {screen === "new" && (
-              <AgendaNewAppointment
-                onBack={() => setScreen("calendar")}
-              />
-            )}
-
-            {screen === "sales" && (
-              <AgendaSales />
-            )}
-
-            {screen === "reports" && (
-              <AgendaReports />
-            )}
+            {screen === "calendar" && <AgendaCalendar onNew={() => setScreen("new")} />}
+            {screen === "new" && <AgendaNewAppointment onBack={() => setScreen("calendar")} />}
+            {screen === "sales" && <AgendaSales />}
+            {screen === "reports" && <AgendaReports />}
           </div>
         </main>
       </div>
@@ -1007,13 +487,13 @@ function AgendaCalendar({
   onNew: () => void;
 }) {
   const days = [
-    ["Lun", "06"],
-    ["Mar", "07"],
-    ["Mié", "08"],
-    ["Jue", "09"],
-    ["Vie", "10"],
-    ["Sáb", "11"],
-    ["Dom", "12"],
+    ["Mon", "06"],
+    ["Tue", "07"],
+    ["Wed", "08"],
+    ["Thu", "09"],
+    ["Fri", "10"],
+    ["Sat", "11"],
+    ["Sun", "12"],
   ];
 
   return (
@@ -1025,25 +505,25 @@ function AgendaCalendar({
           </div>
 
           <div className="mt-1 text-[9px] text-[#999]">
-            Consulta y administra las citas de tu negocio.
+            Friw and manage your business appointments.
           </div>
         </div>
 
         <div className="flex gap-2">
           <button className="rounded-lg border border-[#dedee2] bg-white px-3 py-2 text-[9px]">
-            Hoy
+            Today
           </button>
 
           <button className="flex items-center gap-2 rounded-lg bg-[#222] px-3 py-2 text-[9px] text-white">
             <Plus size={12} />
-            Nueva cita
+            New appointment
           </button>
         </div>
       </div>
 
       <div className="mt-7 flex flex-wrap items-center gap-2">
         <button className="rounded-lg border border-[#dedee2] bg-white px-3 py-2 text-[9px]">
-          Todos los empleados
+          All employees
           <ChevronDown
             size={11}
             className="ml-2 inline"
@@ -1051,7 +531,7 @@ function AgendaCalendar({
         </button>
 
         <button className="rounded-lg border border-[#dedee2] bg-white px-3 py-2 text-[9px]">
-          Todos los servicios
+          All services
           <ChevronDown
             size={11}
             className="ml-2 inline"
@@ -1092,7 +572,7 @@ function AgendaCalendar({
               {index === 1 && (
                 <AgendaAppointment
                   top="55px"
-                  title="Corte de cabello"
+                  title="Haircut"
                   client="Carlos Ramírez"
                   time="10:00"
                 />
@@ -1102,14 +582,14 @@ function AgendaCalendar({
                 <>
                   <AgendaAppointment
                     top="105px"
-                    title="Corte de barba"
+                    title="Beard trim"
                     client="Juan Pérez"
                     time="11:00"
                   />
 
                   <AgendaAppointment
                     top="235px"
-                    title="Corte de cabello"
+                    title="Haircut"
                     client="Miguel Ángel"
                     time="14:00"
                   />
@@ -1119,7 +599,7 @@ function AgendaCalendar({
               {index === 4 && (
                 <AgendaAppointment
                   top="165px"
-                  title="Greca"
+                  title="Design cut"
                   client="Fernando Soto"
                   time="13:00"
                 />
@@ -1134,7 +614,7 @@ function AgendaCalendar({
           onClick={onNew}
           className="text-[9px] text-[#777] underline underline-offset-4"
         >
-          Abrir nueva cita
+          Open new appointment
         </button>
       </div>
     </div>
@@ -1184,48 +664,48 @@ function AgendaNewAppointment({
         className="mb-6 flex items-center gap-2 text-[9px] text-[#777]"
       >
         <ChevronLeft size={13} />
-        Volver a citas
+        Back to appointments
       </button>
 
       <div className="rounded-2xl border border-[#e2e2e5] bg-white">
         <div className="border-b border-[#ededee] p-6">
           <div className="text-[18px] font-semibold tracking-[-0.04em]">
-            Cita nueva
+            New appointment
           </div>
 
           <div className="mt-1 text-[9px] text-[#999]">
-            Programa una nueva cita para un cliente.
+            Schedule a new appointment for a customer.
           </div>
         </div>
 
         <div className="grid gap-6 p-6 md:grid-cols-2">
           <AgendaField
-            label="Cliente"
-            value="Selecciona un cliente"
+            label="Customer"
+            value="Select a customer"
           />
 
           <AgendaField
-            label="Servicio"
-            value="Selecciona un servicio"
+            label="Service"
+            value="Select a service"
           />
 
           <AgendaField
-            label="Inicio"
+            label="Date"
             value="08/07/2026 — 10:00"
           />
 
           <AgendaField
-            label="Fin"
+            label="End"
             value="08/07/2026 — 11:00"
           />
 
           <AgendaField
-            label="Empleado"
-            value="Selecciona un empleado"
+            label="Employee"
+            value="Select an employee"
           />
 
           <AgendaField
-            label="Precio"
+            label="Price"
             value="$450.00"
           />
         </div>
@@ -1243,7 +723,7 @@ function AgendaNewAppointment({
             </div>
 
             <button className="rounded-lg bg-[#222] px-5 py-3 text-[9px] text-white">
-              Guardar cita
+              Save appointment
             </button>
           </div>
         </div>
@@ -1283,17 +763,17 @@ function AgendaSales() {
       <div className="flex items-end justify-between">
         <div>
           <div className="text-[22px] font-semibold tracking-[-0.05em]">
-            Ventas
+            Sales
           </div>
 
           <div className="mt-1 text-[9px] text-[#999]">
-            Nueva venta y transacciones.
+            New sale y transacciones.
           </div>
         </div>
 
         <button className="flex items-center gap-2 rounded-lg bg-[#222] px-4 py-2.5 text-[9px] text-white">
           <Plus size={12} />
-          Nueva venta
+          New sale
         </button>
       </div>
 
@@ -1301,15 +781,15 @@ function AgendaSales() {
         <div className="rounded-2xl border border-[#e2e2e5] bg-white">
           <div className="border-b border-[#ededee] p-5">
             <div className="text-[11px] font-medium">
-              Nueva venta
+              New sale
             </div>
           </div>
 
           <div className="grid gap-2 p-5 sm:grid-cols-2">
             {[
-              "Corte de barba",
-              "Corte de cabello",
-              "Greca",
+              "Beard trim",
+              "Haircut",
+              "Design cut",
               "Pomada",
             ].map((item) => (
               <button
@@ -1328,12 +808,12 @@ function AgendaSales() {
 
         <div className="rounded-2xl border border-[#e2e2e5] bg-white p-5">
           <div className="text-[11px] font-medium">
-            Detalle de venta
+            Sale details
           </div>
 
           <div className="mt-5 space-y-4">
             <SaleRow
-              title="Corte de cabello"
+              title="Haircut"
               price="$350"
             />
 
@@ -1350,7 +830,7 @@ function AgendaSales() {
             </div>
 
             <div className="mt-2 flex justify-between text-[9px] text-[#999]">
-              <span>Descuento</span>
+              <span>Discount</span>
               <span>$0.00</span>
             </div>
 
@@ -1366,7 +846,7 @@ function AgendaSales() {
           </div>
 
           <button className="mt-5 w-full rounded-lg bg-[#222] py-3 text-[9px] text-white">
-            Cobrar
+            Charge
           </button>
         </div>
       </div>
@@ -1399,35 +879,35 @@ function AgendaReports() {
     <div>
       <div>
         <div className="text-[22px] font-semibold tracking-[-0.05em]">
-          Estadísticas e informes
+          Reports & analytics
         </div>
 
         <div className="mt-1 text-[9px] text-[#999]">
-          Consulta el rendimiento de tu negocio.
+          View your business performance.
         </div>
       </div>
 
       <div className="mt-7 grid gap-4 md:grid-cols-4">
         <AgendaMetric
-          label="Ventas"
+          label="Sales"
           value="$28,450"
           trend="+12.4%"
         />
 
         <AgendaMetric
-          label="Citas"
+          label="Appointments"
           value="184"
           trend="+8.2%"
         />
 
         <AgendaMetric
-          label="Clientes"
+          label="Customers"
           value="96"
           trend="+5.1%"
         />
 
         <AgendaMetric
-          label="Ticket promedio"
+          label="Average ticket"
           value="$415"
           trend="+4.8%"
         />
@@ -1438,11 +918,11 @@ function AgendaReports() {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-[11px] font-medium">
-                Ventas
+                Sales
               </div>
 
               <div className="mt-1 text-[8px] text-[#aaa]">
-                Últimos 7 días
+                Last 7 days
               </div>
             </div>
 
@@ -1475,27 +955,27 @@ function AgendaReports() {
 
         <div className="rounded-2xl border border-[#e2e2e5] bg-white p-6">
           <div className="text-[11px] font-medium">
-            Servicios más vendidos
+            Top-selling services
           </div>
 
           <div className="mt-6 space-y-5">
             <ReportRow
-              label="Corte de cabello"
+              label="Haircut"
               value="42%"
             />
 
             <ReportRow
-              label="Corte de barba"
+              label="Beard trim"
               value="27%"
             />
 
             <ReportRow
-              label="Greca"
+              label="Design cut"
               value="18%"
             />
 
             <ReportRow
-              label="Otros"
+              label="Other"
               value="13%"
             />
           </div>
@@ -1831,140 +1311,148 @@ function Detail({
 ========================================================= */
 
 function DisbursementPortal() {
-  const [screen, setScreen] = useState<
-    "dashboard" | "upload" | "transactions" | "users"
-  >("dashboard");
+  const [screen, setScreen] = useState<"dashboard" | "upload" | "transactions" | "users">("dashboard");
+  const [collapsed, setCollapsed] = useState(false);
+
+  const nav = [
+    ["dashboard", LayoutDashboard, "Dashboard"],
+    ["upload", ArrowUp, "Upload batch"],
+    ["transactions", FileText, "Transactions"],
+    ["users", Users, "Users"],
+  ] as const;
 
   return (
-    <div
-      className="relative min-h-[720px] overflow-hidden text-white md:min-h-[820px]"
-      style={{
-        backgroundImage: "url('/backdisp.png')",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
-      <div className="absolute inset-0 bg-[#06152f]/15" />
-
+    <div className="relative min-h-[720px] overflow-hidden bg-[#07101d] text-white md:min-h-[820px]" style={{ backgroundImage: "url('/backdisp.png')", backgroundPosition: "center", backgroundSize: "cover" }}>
+      <div className="absolute inset-0 bg-[#06152f]/45" />
       <div className="relative z-10 flex min-h-[720px] md:min-h-[820px]">
-        {/* SIDEBAR */}
-
-        <aside className="hidden w-[220px] shrink-0 border-r border-white/10 bg-[#06152f]/55 p-4 backdrop-blur-2xl md:flex md:flex-col">
-          <div className="flex h-[58px] items-center gap-2 px-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-black">
-              <Wallet size={15} />
-            </div>
-
-            <div className="text-[12px] font-semibold">
-              BLOCX PAY
-            </div>
-          </div>
-
-          <div className="mt-8 space-y-1">
-            <DispersionNav
-              icon={LayoutDashboard}
-              label="Dashboard"
-              active={screen === "dashboard"}
-              onClick={() => setScreen("dashboard")}
-            />
-
-            <DispersionNav
-              icon={ArrowUp}
-              label="Upload Batch"
-              active={screen === "upload"}
-              onClick={() => setScreen("upload")}
-            />
-
-            <DispersionNav
-              icon={FileText}
-              label="Transactions"
-              active={screen === "transactions"}
-              onClick={() => setScreen("transactions")}
-            />
-
-            <DispersionNav
-              icon={Users}
-              label="Users"
-              active={screen === "users"}
-              onClick={() => setScreen("users")}
-            />
-          </div>
-
-          <div className="mt-auto rounded-xl border border-white/10 bg-white/[0.05] p-3">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
-                <User size={13} />
-              </div>
-
+        <aside className={`${collapsed ? "w-[76px]" : "w-[220px]"} hidden shrink-0 border-r border-white/10 bg-[#A6A6A6]/40 backdrop-blur-2xl transition-all duration-300 md:flex md:flex-col`}>
+          <div className="flex h-[72px] items-center justify-between border-b border-white/10 px-4">
+            {!collapsed && (
               <div>
-                <div className="text-[8px]">
-                  Adrian Morfin
-                </div>
-
-                <div className="mt-1 text-[7px] text-white/35">
-                  Administrator
-                </div>
+                <div className="text-[11px] font-semibold tracking-wide">BLXCK PAY</div>
+                <div className="mt-1 text-[7px] uppercase tracking-[0.2em] text-white/55">Disbursement portal</div>
               </div>
+            )}
+            <button onClick={() => setCollapsed((value) => !value)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-white/10 text-white transition hover:bg-white/20" aria-label="Collapse navigation">
+              <ChevronLeft size={15} className={collapsed ? "rotate-180" : ""} />
+            </button>
+          </div>
+          <div className="flex-1 p-3">
+            {nav.map(([key, Icon, label]) => (
+              <button key={key} onClick={() => setScreen(key)} className={`mb-1 flex w-full items-center gap-3 rounded-[12px] px-3 py-3 text-left text-[8px] transition ${screen === key ? "bg-white/20 text-white" : "text-white/60 hover:bg-white/10 hover:text-white"}`}>
+                <Icon size={14} className="shrink-0" />
+                {!collapsed && label}
+              </button>
+            ))}
+          </div>
+          <div className="border-t border-white/10 p-3">
+            <div className={`flex items-center ${collapsed ? "justify-center" : "gap-3"}`}>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10"><User size={13} /></div>
+              {!collapsed && <div><div className="text-[8px]">Alberto Martinez</div><div className="mt-1 text-[7px] text-white/40">Administrator</div></div>}
             </div>
           </div>
         </aside>
 
-        {/* MAIN */}
-
-        <main className="min-w-0 flex-1">
-          <div className="flex h-[68px] items-center justify-between border-b border-white/10 bg-[#06152f]/25 px-5 backdrop-blur-xl md:px-8">
-            <div>
-              <div className="text-[8px] uppercase tracking-[0.2em] text-white/30">
-                BLOCX PAY
+        <main className="min-w-0 flex-1 overflow-auto">
+          <div className="p-5 md:p-8 lg:p-10">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <div className="text-[8px] uppercase tracking-[0.22em] text-white/35">BLXCK PAY / DISBURSEMENTS</div>
+                <h3 className="mt-2 text-[25px] font-medium tracking-[-0.05em]">{screen === "dashboard" ? "Dashboard" : screen === "upload" ? "Upload batch" : screen === "transactions" ? "Transactions" : "Users"}</h3>
               </div>
-
-              <div className="mt-1 text-[13px]">
-                {screen === "dashboard"
-                  ? "Dashboard"
-                  : screen === "upload"
-                    ? "Upload Batch"
-                    : screen === "transactions"
-                      ? "Transactions"
-                      : "Users"}
-              </div>
+              <button onClick={() => setScreen("upload")} className="hidden rounded-[12px] bg-[#A6A6A6]/40 px-4 py-2.5 text-[8px] font-medium text-white backdrop-blur-xl transition hover:bg-[#A6A6A6]/55 md:block"><ArrowUp size={12} className="mr-2 inline" />Upload batch</button>
             </div>
 
-            <div className="flex items-center gap-4">
-              <Search
-                size={15}
-                className="text-white/35"
-              />
-
-              <Bell
-                size={15}
-                className="text-white/35"
-              />
-
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
-                <User size={13} />
-              </div>
-            </div>
-          </div>
-
-          <div className="p-5 md:p-8">
-            {screen === "dashboard" && (
-              <DisbursementDashboard />
-            )}
-
-            {screen === "upload" && (
-              <DisbursementUpload />
-            )}
-
-            {screen === "transactions" && (
-              <DisbursementTransactions />
-            )}
-
-            {screen === "users" && (
-              <DisbursementUsers />
-            )}
+            {screen === "dashboard" && <DisbursementDashboardV2 onUpload={() => setScreen("upload")} />}
+            {screen === "upload" && <DisbursementUpload />}
+            {screen === "transactions" && <DisbursementTransactions />}
+            {screen === "users" && <DisbursementUsers />}
           </div>
         </main>
       </div>
+    </div>
+  );
+}
+
+function DisbursementDashboardV2({ onUpload }: { onUpload: () => void }) {
+  return (
+    <div className="mt-6">
+      <div className="grid gap-4 md:grid-cols-3">
+        <DisbursementMetricV2 label="Available balance" value="$320,090.00" />
+        <DisbursementMetricV2 label="Dispersing" value="$20,090.00" />
+        <DisbursementMetricV2 label="Pending authorization" value="12 batches" />
+      </div>
+
+      <div className="mt-5 grid gap-5 xl:grid-cols-[1.15fr_.85fr]">
+        <div className="rounded-[22px] border border-[#0DA8F3]/20 bg-[#0DA8F3]/20 p-5 backdrop-blur-2xl">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="text-[10px] font-medium">Batch history</div>
+              <div className="mt-1 text-[7px] text-white/40">Recent disbursement batches and their current status.</div>
+            </div>
+            <div className="flex gap-2">
+              <div className="flex flex-1 items-center gap-2 rounded-[13px] border border-[#0DA8F3]/30 bg-[#0DA8F3]/40 px-3 py-2.5 md:w-[190px] md:flex-none">
+                <Search size={12} className="text-white/55" />
+                <input placeholder="Search batch" className="w-full bg-transparent text-[8px] outline-none placeholder:text-white/45" />
+              </div>
+              <button className="rounded-[13px] bg-[#0DA8F3]/40 px-3 py-2.5 text-[8px] text-white"><ChevronDown size={12} className="mr-1 inline" />Status</button>
+            </div>
+          </div>
+
+          <div className="mt-5 space-y-2">
+            <DisbursementBatchV2 name="employees_july.csv" amount="$84,230.00" status="Completed" />
+            <DisbursementBatchV2 name="providers_july.csv" amount="$52,180.00" status="Completed" />
+            <DisbursementBatchV2 name="payroll_0626.csv" amount="$20,090.00" status="Pending" />
+            <DisbursementBatchV2 name="operations_0619.csv" amount="$31,400.00" status="Processing" />
+          </div>
+        </div>
+
+        <div className="rounded-[22px] border border-white/10 bg-[#0DA8F3]/20 p-5 backdrop-blur-2xl">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-[10px] font-medium">Pending authorization</div>
+              <div className="mt-1 text-[7px] text-white/40">Operations waiting for approval.</div>
+            </div>
+            <button onClick={onUpload} className="rounded-[12px] bg-[#A6A6A6]/40 px-3 py-2 text-[7px] text-white">Review all</button>
+          </div>
+          <div className="mt-5 space-y-3">
+            <DisbursementPendingV2 name="Batch_07032026.csv" amount="$12,430.00" />
+            <DisbursementPendingV2 name="Batch_06032026.csv" amount="$7,660.00" />
+            <DisbursementPendingV2 name="Batch_05032026.csv" amount="$4,920.00" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DisbursementMetricV2({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[20px] border border-[#0DA8F3]/20 bg-[#0DA8F3]/20 p-5 backdrop-blur-2xl">
+      <div className="text-[7px] uppercase tracking-[0.18em] text-white/45">{label}</div>
+      <div className="mt-3 text-[23px] font-medium tracking-[-0.05em]">{value}</div>
+      <div className="mt-4 flex items-center gap-1 text-[7px] text-white/35"><ArrowUpRight size={10} /> Updated today</div>
+    </div>
+  );
+}
+
+function DisbursementBatchV2({ name, amount, status }: { name: string; amount: string; status: string }) {
+  return (
+    <div className="flex items-center justify-between rounded-[15px] border border-white/10 bg-black/10 px-3 py-3">
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-white/10"><FileText size={13} /></div>
+        <div className="min-w-0"><div className="truncate text-[8px]">{name}</div><div className="mt-1 text-[7px] text-white/35">{amount}</div></div>
+      </div>
+      <span className="ml-3 rounded-full bg-[#A6A6A6]/40 px-2.5 py-1 text-[6px] text-white">{status}</span>
+    </div>
+  );
+}
+
+function DisbursementPendingV2({ name, amount }: { name: string; amount: string }) {
+  return (
+    <div className="flex items-center justify-between rounded-[15px] border border-white/10 bg-black/10 p-3">
+      <div className="flex items-center gap-3"><div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-white/10"><FileText size={13} /></div><div><div className="text-[8px]">{name}</div><div className="mt-1 text-[7px] text-white/35">{amount}</div></div></div>
+      <button className="rounded-[10px] bg-[#A6A6A6]/40 px-2.5 py-2 text-[6px] text-white">Review</button>
     </div>
   );
 }
