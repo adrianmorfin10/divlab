@@ -23,7 +23,7 @@ export default function Footer() {
           </a>
 
           <span className="font-mono text-[9px] text-white/20">
-            © 2026 DIV LABS
+            © 2024 DIV LABS
           </span>
         </div>
 
